@@ -1,0 +1,75 @@
+male(amara).
+male(kamal).
+male(nimal).
+male(perera).
+male(chinthaka).
+male(shehan).
+female(suamanawathee).
+female(nayanaa).
+female(sumana).
+female(kusuma).
+female(dinesha).
+female(nethmi).
+
+parent(perera,nayanaa).
+parent(perera,dinesha).
+parent(sumanawathee,nayanaa).
+parent(sumanawathee,dinesha).
+parent(amara,kamal).
+parent(amara,nimal).
+parent(amara,sumana).
+parent(amara,kusuma).
+parent(nayanaa,kamal).
+parent(nayanaa,nimal).
+parent(nayanaa,sumana).
+parent(nayanaa,kusuma).
+parent(chinthaka,shehan).
+parent(chinthaka,nethmi).
+parent(dinesha,shehan).
+parent(dinesha,nethmi).
+
+father(X,Y) :- male(X), parent(X,Y).
+mother(X,Y) :- female(X), parent(X,Y).
+
+ancestor(X,Y) :- parent(X,Y).
+ancestor(X,Y) :- parent(X,Z),ancestor(Z,Y).
+
+grandparent(X,Z) :- parent(X,Y),parent(Y,Z).
+
+cousin(X,Y) :- parent(Z,X),parent(W,Y),sibling(Z,W),X\=Y.
+sibling(X,Y) :- parent(Z,X),parent(Z,Y),X\=Y.
+*----------------*
+move(1,X,Y,_) :-
+    write('Move top disk from '),write(X),write(' to '),write(Y),nl.
+
+move(N,X,Y,Z) :-
+    N>1,
+    M is N-1,
+    move(M,X,Z,Y),
+    move(1,X,Y,_),
+    move(M,Z,Y,X).
+*----------------*
+animal(fido,dog,large).
+animal(rover,dog,small).
+animal(tom,cat,small).
+animal(fred,dog,large).
+animal(mary,cat,large).
+animal(jane,cat,small).
+animal(harry,cat,large).
+animal(henry,cat,large).
+animal(bill,cat,large).
+animal(steve,cat,large).
+
+is_large(Animal) :-
+    animal(Animal,_,large).
+
+is_small(Animal) :-
+    animal(Animal,_,samll).
+
+chases(Dog,Animal) :-
+    animal(Dog, dog, large),
+    animal(Animal,_,small).
+
+chases(Dog,Animal) :-
+    animal(Dog,_,small),
+    animal(Animal,_,_).
